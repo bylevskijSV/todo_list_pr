@@ -1,8 +1,8 @@
 class Task < ApplicationRecord
   belongs_to :user
-  belongs_to :assigned, class_name: 'User', optional: true
+  belongs_to :assigned_to, class_name: 'User', optional: true
 
-  delegate :full_name, to: :assigned, prefix: true
+  delegate :full_name, to: :assigned_to, prefix: true
 
   validates :description, presence: true, length: { minimum: 10, maximum: 300 }
   validates :title, presence: true, length: { minimum: 3, maximum: 100 }

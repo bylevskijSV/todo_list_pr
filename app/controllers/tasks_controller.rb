@@ -63,9 +63,9 @@ class TasksController < ApplicationController
   end
 
   def assigned_task_params
-    user_id = params[:task][:assigned_id]
-    assigned_id = current_user.id
-    task_params.merge(user_id: user_id, assigned_id: assigned_id)
+    user_id = params[:task][:assigned_to]
+    assigned_to = current_user
+    task_params.merge(user_id: user_id, assigned_to: assigned_to)
   end
 
   def assigned_task?

@@ -18,19 +18,19 @@
   <% end %>
 
   <% unless @users_for_select.empty? %>
-    <% if @task.assigned_id.nil? %>
+    <% if @task.assigned_to.nil? %>
       <div class="form-group">
         <%= f.label :assigned_task %>
         <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>
       </div>
 
       <div class="form-group" id="assigned_select">
-        <%= f.label :assigned_id, 'Assign to:' %>
-        <%= f.select :assigned_id, @users_for_select, class: 'form-control' %>
+        <%= f.label :assigned_to, 'Assign to:' %>
+        <%= f.select :assigned_to, @users_for_select, class: 'form-control' %>
       </div>
     <% else %>
       <div class="form-group">
-        <p> The task is assigned by <%= @task.assigned_full_name %>
+        <p> The task is assigned by <%= @task.assigned_to_full_name %>
       </div>
     <% end %>
   <% end %>
