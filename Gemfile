@@ -31,6 +31,7 @@ gem 'devise', '~> 4.8.0'
 gem 'bootsnap', '>= 1.4.4', require: false
 
 group :development, :test do
+  gem 'rexml'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'factory_bot_rails', '~> 6.2'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
