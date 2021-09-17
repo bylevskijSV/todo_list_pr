@@ -1,0 +1,39 @@
+<%= render 'errors', obj: @task %>
+
+<%= form_with model: @task do |f| %>
+  <div class="form-group">
+    <%= f.label :title%>
+    <%= f.text_field :title, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :description %>
+    <%= f.text_area :description, class: 'form-control' %>
+  </div>
+
+  <% if @task.id.present? %>
+    <div class="form-group">
+      <%= f.select :status, Task::STATUSES %>
+    </div>
+  <% end %>
+
+  <% unless @users_for_select.empty? %>
+    <% if @task.assigned_id.nil? %>
+      <div class="form-group">
+        <%= f.label :assigned_task %>
+        <%= f.check_box :assigned_task, id: 'assigned_checkbox' %>
+      </div>
+
+      <div class="form-group" id="assigned_select">
+        <%= f.label :assigned_id, 'Assign to:' %>
+        <%= f.select :assigned_id, @users_for_select, class: 'form-control' %>
+      </div>
+    <% else %>
+      <div class="form-group">
+        <p> The task is assigned by <%= @task.assigned_full_name %>
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= f.submit class: 'btn btn-primary'%>
+<% end %>
