@@ -13,4 +13,8 @@ class Task < ApplicationRecord
   def complete!
     update_column(:status, Task::DONE)
   end
+
+  def task_done?
+    status == Task::DONE
+  end
 end
