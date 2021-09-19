@@ -7,6 +7,8 @@ class TasksController < ApplicationController
     @tasks = current_user.tasks.where.not(status: Task::DONE).order(updated_at: :desc)
 
     @completed_tasks = current_user.tasks.where(status: Task::DONE).order(updated_at: :desc)
+
+    @assigned_tasks = Task.where(assigned_to: current_user).includes(:assigned_to)
   end
 
   def new

@@ -1,0 +1,16 @@
+<div class="container border bg-light">
+  <div class="row">
+    <div class="col-sm text-<%= status_color(task.status) %>">
+      <%= link_to_unless_current truncate(task.title, length: 20), task, class: "a-status-#{task.status == 'in progress' ? 'in-progress' : task.status}" %>
+    </div>
+    <div class="col-sm text-<%= status_color(task.status) %>">
+      <%= truncate(task.description, length: 20) %>
+    </div>
+    <div class="col-sm text-<%= status_color(task.status) %>">
+      <%= task.status %>
+    </div>
+    <div class="col-sm text">
+      <%= task.user.full_name %>
+    </div>
+  </div>
+</div>
