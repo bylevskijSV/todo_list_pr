@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[show edit update destroy complete]
   before_action :check_user_tasks, only: %i[show edit update destroy]
-  before_action :not_edit_assigned_task, only: %i[update edit]
+  before_action :not_edit_assigned_task, only: %i[update edit complete]
 
   def index
     @tasks = current_user.tasks.where.not(status: Task::DONE).order(updated_at: :desc)
