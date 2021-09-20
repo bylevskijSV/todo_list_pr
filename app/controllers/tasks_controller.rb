@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
-
   before_action :set_task, only: %i[show edit update destroy complete]
   before_action :check_user_tasks, only: %i[show edit update destroy]
+  before_action :not_edit_assigned_task, only: %i[update edit]
 
   def index
     @tasks = current_user.tasks.where.not(status: Task::DONE).order(updated_at: :desc)
@@ -17,7 +17,7 @@ class TasksController < ApplicationController
     @users_for_select = emails_and_users_id
   end
 
-  def show;end
+  def show; end
 
   def create
     @task = assigned_task? ? Task.create(assigned_task_params) : current_user.tasks.create(task_params)
@@ -79,10 +79,21 @@ class TasksController < ApplicationController
   end
 
   def check_user_tasks
-    return unless current_user != @task.user
+    return if current_user == @task.user || check_assigned_tasks?
 
     flash[:alert] = 'You can only edit, view, delete your own task'
     redirect_to tasks_path
+  end
+
+  def not_edit_assigned_task
+    return unless check_assigned_tasks?
+
+    flash[:alert] = 'You can view and delete your assigned tasks'
+    redirect_to tasks_path
+  end
+
+  def check_assigned_tasks?
+    current_user.id == @task.assigned_to_id
   end
 
   def emails_and_users_id
