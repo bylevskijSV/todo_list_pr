@@ -3,14 +3,20 @@
     <div class="col-sm text-<%= status_color(task.status) %>">
       <%= link_to_unless_current truncate(task.title, length: 20), task, class: "a-status-#{task.status == 'in progress' ? 'in-progress' : task.status}" %>
     </div>
-    <div class="col-sm text-<%= status_color(task.status) %>">
-      <%= truncate(task.description, length: 20) %>
+    <div class="col-sm-3 text-<%= status_color(task.status) %>">
+      <%= truncate(task.description, length: 40) %>
     </div>
-    <div class="col-sm text-<%= status_color(task.status) %>">
+    <div class="col-sm-1 text-<%= status_color(task.status) %>">
       <%= task.status %>
     </div>
-    <div class="col-sm text">
+    <div class="col-sm-1 text-center">
+      <%= link_to content_tag('i', '', class: 'fas fa-trash-alt'), task_path(task), method: :delete, data: { confirm: 'Are you sure?' }, class: 'action'%>
+    </div>
+    <div class="col-sm">
       <%= task.user.full_name %>
+    </div>
+    <div class="col-sm">
+      <%= task.user.email %>
     </div>
   </div>
 </div>

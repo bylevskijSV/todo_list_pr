@@ -56,7 +56,7 @@
   </div>
 <% end %>
 
-<% unless @assigned_tasks.nil? %>
+<% unless @assigned_tasks.empty? %>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -68,14 +68,20 @@
         <div class="col-sm">
           Title
         </div>
-        <div class="col-sm">
+        <div class="col-sm-3">
           Description
         </div>
-        <div class="col-sm">
+        <div class="col-sm-1">
           Status
+        </div>
+        <div class="col-sm-1 text-center">
+          Delete
         </div>
         <div class="col-sm">
           Name
+        </div>
+        <div class="col-sm">
+          Email
         </div>
       </div>
     </div>
