@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "/tasks", type: :request do
   let(:task) { FactoryBot.create(:task, user_id: user.id) }
-
+  let(:assigned_task) { FactoryBot.create(:task, assigned_to: user)}
   let(:valid_attributes) do
     { title: 'Test title!', description: 'Test description', user_id: 1 }
   end
@@ -80,6 +80,13 @@ RSpec.describe "/tasks", type: :request do
         get task_url(task)
         expect(response).to be_successful
       end
+
+      context 'luck assigned task' do
+        it 'renders a successful response' do
+          get task_url(assigned_task)
+          expect(response).to be_successful
+        end
+      end
     end
 
     describe 'GET /new' do
@@ -94,12 +101,31 @@ RSpec.describe "/tasks", type: :request do
         get edit_task_url(task)
         expect(response).to be_successful
       end
+
+      context 'edit-form assigned task' do
+        it 'returns a redirect response' do
+          get edit_task_url(assigned_task)
+          expect(response).to have_http_status(:redirect)
+        end
+      end
     end
 
     describe 'GET /complete' do
-      it 'render a successful response' do
+      it 'returns a redirect response' do
         get complete_task_url(task)
         expect(response).to have_http_status(:redirect)
+      end
+
+      context 'complete assigned task' do
+        it 'status not change' do
+          get complete_task_url(assigned_task)
+          expect(assigned_task.status).to eq('new')
+        end
+
+        it 'returns a redirect response' do
+          get complete_task_url(assigned_task)
+          expect(response).to have_http_status(:redirect)
+        end
       end
     end
 
@@ -153,6 +179,13 @@ RSpec.describe "/tasks", type: :request do
           task.reload
           expect(response).to redirect_to(tasks_url)
         end
+
+        context 'update assigned task' do
+          it 'returns a redirect response' do
+            patch task_url(assigned_task), params: { task: new_attributes }
+            expect(response).to have_http_status(:redirect)
+          end
+        end
       end
 
       context 'with invalid parameters' do
@@ -173,6 +206,19 @@ RSpec.describe "/tasks", type: :request do
       it 'redirects to the tasks list' do
         delete task_url(task)
         expect(response).to redirect_to(tasks_url)
+      end
+
+      context 'delete assigned task' do
+        it 'destroys the requested task' do
+          expect do
+            delete task_url(assigned_task)
+          end.to change(Task, :count).by(0)
+        end
+
+        it 'redirects to the tasks list' do
+          delete task_url(assigned_task)
+          expect(response).to redirect_to(tasks_url)
+        end
       end
     end
   end
