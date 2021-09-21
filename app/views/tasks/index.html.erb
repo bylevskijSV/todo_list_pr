@@ -1,0 +1,96 @@
+<% unless @tasks.blank? %>
+  <div class="container">
+
+      <div class="row">
+        <div class="col">
+          <h3 class="text-center">Task</h3>
+        </div>
+      </div>
+      <div class="container border bg-light">
+        <div class="row">
+          <div class="col-sm">
+            Title
+          </div>
+          <div class="col-sm">
+            Description
+          </div>
+          <div class="col-sm">
+            Status
+          </div>
+        </div>
+      </div>
+
+      <% @tasks.each do |task| %>
+        <%= render partial: 'task', object: task %>
+      <% end%>
+
+    <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
+  </div>
+<% else %>
+  <div class="container">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm text-center">
+          <h3>No active tasks</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm text-center">
+          <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end%>
+
+<% unless @completed_tasks.blank? %>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 class="text-center">Task done</h3>
+      </div>
+    </div>
+
+    <% @completed_tasks.each do |task| %>
+      <%= render partial: 'task', object: task %>
+    <% end %>
+
+  </div>
+<% end %>
+
+<% unless @assigned_tasks.blank? %>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <h3 class="text-center">Assigned tasks</h3>
+      </div>
+    </div>
+    <div class="container border bg-light">
+      <div class="row">
+        <div class="col-sm">
+          Title
+        </div>
+        <div class="col-sm-3">
+          Description
+        </div>
+        <div class="col-sm-1">
+          Status
+        </div>
+        <div class="col-sm-1 text-center">
+          Delete
+        </div>
+        <div class="col-sm">
+          Name
+        </div>
+        <div class="col-sm">
+          Email
+        </div>
+      </div>
+    </div>
+
+    <% @assigned_tasks.each do |task| %>
+      <%= render partial: 'assigned_task', locals: {task: task} %>
+    <% end %>
+
+  </div>
+<% end %>
