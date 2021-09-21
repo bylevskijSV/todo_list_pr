@@ -1,4 +1,4 @@
-<% unless @tasks.empty? %>
+<% unless @tasks.blank? %>
   <div class="container">
 
       <div class="row">
@@ -27,21 +27,23 @@
     <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
   </div>
 <% else %>
-  <div class="container bg-light">
-    <div class="row">
-      <div class="col-sm text-center">
-        <h3>No task</h3>
+  <div class="container">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm text-center">
+          <h3>No active tasks</h3>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm text-center">
-        <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
+      <div class="row">
+        <div class="col-sm text-center">
+          <%= link_to 'Create task', new_task_path, class: 'btn btn-primary mt-1'%>
+        </div>
       </div>
     </div>
   </div>
 <% end%>
 
-<% unless @completed_tasks.empty? %>
+<% unless @completed_tasks.blank? %>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -56,7 +58,7 @@
   </div>
 <% end %>
 
-<% unless @assigned_tasks.empty? %>
+<% unless @assigned_tasks.blank? %>
   <div class="container">
     <div class="row">
       <div class="col">
