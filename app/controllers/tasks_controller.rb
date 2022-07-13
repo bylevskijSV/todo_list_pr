@@ -20,7 +20,7 @@ class TasksController < ApplicationController
   def show; end
 
   def create
-    @task = assigned_task? ? Task.create(assigned_task_params) : current_user.tasks.create(task_params)
+    created_task
 
     if @task.errors.empty?
       redirect_to tasks_path
@@ -98,5 +98,18 @@ class TasksController < ApplicationController
 
   def emails_and_users_id
     User.where.not(email: current_user.email).pluck(:email, :id)
+  end
+
+  def created_task
+    if assigned_task?
+      @task = Task.create(assigned_task_params)
+      TaskMailer.with(email: @task.user.email,
+                      name: @task.user.full_name,
+                      from: current_user.email,
+                      title: @task.title)
+                .assigned_task.deliver_later
+    else
+      @task = current_user.tasks.create(task_params)
+    end
   end
 end
